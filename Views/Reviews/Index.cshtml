@@ -1,0 +1,107 @@
+﻿@model IEnumerable<ReviewWebsite.Models.Review>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="navbar-brand">
+
+    @using (Html.BeginForm("Index", "Reviews", FormMethod.Get))
+
+    {
+
+        <select name="filter">
+            <option value="All" selected="selected">All</option>
+            <option value="Movie Name">Movie Name</option>
+        </select>
+        <input type="text" name="Search" placeholder="Search" />
+        <input type="submit" value="Search" />}
+</div>
+<br />
+<br />
+<br />
+
+<p>
+    <div class="btn">
+
+        @Html.ActionLink("Create New", "Create")
+    </div>
+
+</p>
+
+<style>
+
+    .cont {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        margin-top: 20px;
+        border: 2px solid black;
+        width: 355px;
+    }
+
+    img {
+        align-self: center;
+        width: inherit;
+    }
+
+    .btn {
+        background-color: #00e7ff;
+        color: white;
+        text-decoration: none;
+    }
+
+    .cen {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-self: center;
+        width: 50%;
+    }
+
+    .stars:first-of-type {
+        margin-left: 15px;
+    }
+</style>
+
+<div class="cont">
+    @foreach (var item in Model)
+    {
+
+        <div class="card">
+            <img src="@Html.DisplayFor(modelItem => item.movie_poster)" alt="@Html.DisplayFor(modelItem => item.Review_name)" onerror="this.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'">
+            <div class="card-body">
+                <h5 class="card-title" style="text-align:center"><b>@Html.DisplayFor(modelItem => item.Review_name)</b></h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"> @Html.DisplayNameFor(modelItem => modelItem.director): @Html.DisplayFor(modelItem => item.director)</li>
+                <li class="list-group-item"> @Html.DisplayNameFor(modelItem => modelItem.publications): @Html.DisplayFor(modelItem => item.publications)</li>
+
+                @for (int i = 0; i < item.star; i++)
+                {
+                    <span style="font-size: 21px" class="stars">&#x2605</span>
+                }
+                @for (int j = item.star; j < 5; j++)
+                {
+                    <span style="font-size: 21px">&#x2606</span>
+                }
+                <li class="list-group-item"> @Html.DisplayFor(modelItem => item.Review_desc)</li>
+
+                <div class="cen">
+
+                    <i class="glyphicon glyphicon-edit"></i>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) | <i class="bi bi-trash3-fill"></i>@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </div>
+
+            </ul>
+
+        </div>
+
+    }
+</div>
